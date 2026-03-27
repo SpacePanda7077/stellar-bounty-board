@@ -19,7 +19,7 @@ import {
   reserveBounty,
   submitBounty,
 } from "./api";
-import { Bounty, BountyStatus, CreateBountyPayload, OpenIssue } from "./types";
+
 import SkeletonBountyCard from "./SkeletonBountyCard";
 
 const initialForm: CreateBountyPayload = {
@@ -588,6 +588,13 @@ function App() {
               </label>
             </div>
 
+            <GitHubIssuePreviewCard
+              repo={form.repo}
+              issueNumber={form.issueNumber}
+              title={form.title}
+              labels={form.labels}
+            />
+
             <button className="primary-button" disabled={submitting}>
               {submitting ? "Publishing..." : "Publish bounty"}
             </button>
@@ -730,7 +737,14 @@ function App() {
                     <div>
                       <span className="meta-label">Issue</span>
                       <strong>
-                        {bounty.repo} #{bounty.issueNumber}
+                        <a
+                          className="inline-link"
+                          href={`https://github.com/${bounty.repo}/issues/${bounty.issueNumber}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {bounty.repo} #{bounty.issueNumber}
+                        </a>
                       </strong>
                     </div>
                     <div>
