@@ -16,17 +16,8 @@ export default function GitHubIssuePreviewCard({ repo, issueNumber, title, label
   const canLink = isValidRepo(normalizedRepo) && Number.isFinite(issueNumber) && issueNumber > 0;
   const href = canLink ? `https://github.com/${normalizedRepo}/issues/${issueNumber}` : undefined;
 
-  return (
-    <a
-      className={`github-issue-card${canLink ? "" : " github-issue-card--disabled"}`}
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      aria-disabled={!canLink}
-      onClick={(event) => {
-        if (!canLink) event.preventDefault();
-      }}
-    >
+  const content = (
+    <>
       <div className="github-issue-card__top">
         <div className="github-issue-card__heading">
           <FolderGit2 size={16} />
@@ -53,6 +44,20 @@ export default function GitHubIssuePreviewCard({ repo, issueNumber, title, label
       ) : (
         <div className="github-issue-card__empty">Add labels to help contributors filter.</div>
       )}
+    </>
+  );
+
+  if (!canLink) {
+    return (
+      <div className="github-issue-card github-issue-card--disabled" aria-disabled="true">
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <a className="github-issue-card" href={href} target="_blank" rel="noreferrer">
+      {content}
     </a>
   );
 }
